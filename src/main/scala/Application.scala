@@ -1,7 +1,6 @@
 package lola
 
-import scala.scalajs.js
-import js.JSApp
+import scala.scalajs.js.JSApp
 import org.scalajs.dom._
 
 import org.scalajs.jquery.{jQuery, JQuery}
@@ -15,7 +14,7 @@ object Application extends JSApp {
 		val sText = "Dick Cheese"
 		val eText = ""
 		val items = List()
-		val g = new Node(tag, attributes, style, sText, eText, items, "poop")
+		val g = new js.Node(tag, attributes, style, sText, eText, items, "poop")
 		jQuery("body").append(g.render)
 	}
 }

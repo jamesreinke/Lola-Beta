@@ -40,3 +40,7 @@ sealed case class Update(n: Node) extends Command
 sealed case class Css(n: Node, style: Map[String,String]) extends Command
 
 sealed case class Animate(n: Node, style: Map[String,String], time: Long) extends Command
+
+sealed case class Get(n: Node, url: String) extends Command
+
+sealed case class Post(n: Node, url: String) extends Command

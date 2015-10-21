@@ -1,8 +1,47 @@
-package lola
+package lola.js
 
 import scala.scalajs.js.JSApp
 import org.scalajs.dom._
 import org.scalajs.jquery.{jQuery, JQuery}
+
+object Lola {
+
+	/* Permenant nodes, referenced by id */
+	var nodes: scala.collection.mutable.Map[String, Node] = scala.collection.mutable.Map()
+
+	def register(n: Node): Unit = nodes += n.id -> n
+
+	def remove(n: Node): Unit = nodes -= n.id
+
+	def getById(id: String): Option[Node] = nodes get id
+
+	import org.scalajs.dom.ext.Ajax
+	import scala.concurrent._
+	import scala.scalajs
+                .concurrent
+                .JSExecutionContext
+                .Implicits
+                .runNow
+
+	/*
+		Send data, wait for a response... decode the message and execute the abstract syntax tree.
+	*/
+	def get(url: String, data: String = "", timeout: Int = 0, headers: Map[String, String] = Map(), withCredentials: Boolean = false): Unit = {
+		Ajax.get(url, data, timeout, headers, withCredentials).onSuccess {
+			case xhr => {
+				// Do something with the response
+			}
+		}
+	}
+	def post(url: String, data: String = "", timeout: Int = 0, headers: Map[String, String] = Map(), withCredentials: Boolean = false): Unit = {
+		Ajax.post(url, data, timeout, headers, withCredentials).onSuccess {
+			case xhr => {
+				// Do something with the response
+			}
+		}
+	}
+
+}
 /*
 	JQuery selection
 */
@@ -90,13 +129,6 @@ sealed trait Position extends Select {
 	}
 }
 
-object Lola {
-
-	/* Permenant nodes, referenced by id */
-	var nodes: scala.collection.mutable.Map[Int, Node] = scala.collection.mutable.Map()
-
-}
-
 sealed class Node(
 	val tag: String, 
 	val attributes: Map[String, String], 
@@ -119,6 +151,11 @@ sealed class Node(
 			${eText}
 		</${tag}>
 		"""
+	}
+
+	def remove: Unit = {
+		jqSelect.remove
+		Lola.remove(this)
 	}
 
 	def main: Unit = {}
