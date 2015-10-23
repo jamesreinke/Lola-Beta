@@ -22,8 +22,11 @@ object Application extends JSApp {
 	def main = {
 		import interface._
 		import upickle.default._
-		val n = html("div", text = "Poop Dick", style = Map("text-align" -> "center"))
-		val c = new Create(n)
-		Parse(read[Command](write(c)))
+		val n = html("div", text = "Poop Dick", style = Map("text-align" -> "center", "background-color" -> "lightblue"))
+		val c1 = new Create(n)
+		var c2 = new Css(n, "background-color", "red")
+		Parse(read[Command](write(c1)))
+		Parse(read[Command](write(c2)))
+		println(write(c2))
 	}
 }

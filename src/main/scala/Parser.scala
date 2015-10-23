@@ -23,11 +23,16 @@ object Parse {
 	def apply(c: interface.Command): Unit = c match {
 		case interface.Create(n: interface.Node) => Parse(n).create()
 		case interface.Delete(n: interface.Node) => Parse(n).remove
+		case interface.Css(n: interface.Node, k: String, v: String) => Parse(n).setCss(k, v)
 		case interface.Update(n: interface.Node) => Parse(n) // Add update logic here
 		case interface.OnClick(n: interface.Node, c: interface.Command) => Parse(n).onClick(() => Parse(c))
 		case interface.OnHover(n: interface.Node, c: interface.Command, c2: interface.Command) => Parse(n).onHover(() => Parse(c), () => Parse(c2))
 		case interface.Get(n: interface.Node, url: String) => js.Lola.get(url, Parse(n))
 		case interface.Post(n: interface.Node, url: String) => js.Lola.post(url, Parse(n))
+	}
+
+	def apply(cms: List[interface.Command]): Unit = {
+		for(c <- cms) Parse(c)
 	}
 
 }
