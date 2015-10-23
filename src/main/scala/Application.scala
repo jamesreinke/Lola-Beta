@@ -7,16 +7,23 @@ import org.scalajs.jquery.{jQuery, JQuery}
 
 object Application extends JSApp {
 
+	object html {
+		def apply(
+			tag: String = "",
+			attributes: Map[String,String] = Map(),
+			style: Map[String,String] = Map(),
+			text: String = "",
+			items: List[interface.Node] = List(),
+			id: String = interface.Lola.assign): interface.Node = {
+			new interface.Node(tag, attributes, style, text, "", items, id)
+		}
+	}
+
 	def main = {
 		import interface._
 		import upickle.default._
-		val tag = "div"
-		val attributes = Map("class" -> "col-md-6", "name" -> "james")
-		val style = Map("text-align" -> "center")
-		val items = List[Node]()
-		val id = Lola.assign
-		val n = new Node(tag, attributes, style, "Dick Sauce", "", items, id)
+		val n = html("div", text = "Poop Dick", style = Map("text-align" -> "center"))
 		val c = new Create(n)
-		Parse(read[Command](write(c))) // encode... decode... parse !
+		Parse(read[Command](write(c)))
 	}
 }
