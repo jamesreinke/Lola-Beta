@@ -12,15 +12,17 @@ object Application extends JSApp {
 		import upickle.default._
 		for(a <- 1 until 100) {
 			val style = Map(
-				"padding" -> "20px",
-				"width" -> "30%",
+				"margin" -> "20px",
+				"width" -> "27%",
 				"height" -> "50px",
 				"background-color" -> "lightblue",
 				"text-align" -> "center",
-				"float" -> "right")
+				"float" -> "left")
 			val n = el("div", sText = "Dick Cheese", style = style)
 			val c = new Create(n)
+			val c2 = new OnClick(n, new Delete(n))
 			Parse(read[Command](write(c)))
+			Parse(read[Command](write(c2)))
 		}
 	}
 }
