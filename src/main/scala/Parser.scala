@@ -1,5 +1,6 @@
 package lola
 
+import upickle.default._
 
 object Parse {
 
@@ -15,7 +16,7 @@ object Parse {
 	def apply(n: interface.Node): js.Node = lola.js.Lola.getById(n.id) match {
 		case Some(node) => node
 		case None => new js.Node(n.tag, n.attributes, n.style, n.sText, n.eText, n.items map { x => Parse(x) }, n.id)
-	} 
+	}
 
 	/*
 		Interface Command -> Javascript Unit Execution -> Interface Node
@@ -27,8 +28,8 @@ object Parse {
 		case interface.OnClick(n: interface.Node, c: interface.Command) => Parse(n).onClick(() => Parse(c))
 		case interface.OnHover(n: interface.Node, c: interface.Command, c2: interface.Command) => Parse(n).onHover(() => Parse(c), () => Parse(c2))
 		case interface.SlideUp(n: interface.Node, mili: Int) => Parse(n).slideUp(mili)
-		case interface.Get(n: interface.Node, url: String) => js.Lola.get(url, Parse(n))
-		case interface.Post(n: interface.Node, url: String) => js.Lola.post(url, Parse(n))
+		case interface.Get(url: String) => js.Lola.get(url)
+		case interface.Post(url: String, n: interface.Node) => js.Lola.post(url, Parse(n))
 	}
 
 	def apply(cms: List[interface.Command]): Unit = {

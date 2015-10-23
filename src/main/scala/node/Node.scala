@@ -30,14 +30,15 @@ object Lola {
 	/*
 		Send data, wait for a response... decode the message and execute the abstract syntax tree.
 	*/
-	def get(url: String, n: Node, timeout: Int = 0, headers: Map[String, String] = Map(), withCredentials: Boolean = false): Unit = {
-		Ajax.get(url, write(Parse(n)), timeout, headers, withCredentials).onSuccess {
+	def get(url: String, timeout: Int = 0, headers: Map[String, String] = Map(), withCredentials: Boolean = false): Unit = {
+		Ajax.get(url, "", timeout, headers, withCredentials).onSuccess {
 			case xhr => {
 				val c = read[lola.interface.Command](xhr.responseText)
 				Parse(c)
 			}
 		}
 	}
+	
 	def post(url: String,  n: Node, timeout: Int = 0, headers: Map[String, String] = Map(), withCredentials: Boolean = false): Unit = {
 		Ajax.post(url, write(Parse(n)), timeout, headers, withCredentials).onSuccess {
 			case xhr => {
