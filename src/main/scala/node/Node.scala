@@ -72,7 +72,7 @@ sealed trait JQSelect {
 sealed trait Select extends JQSelect {
 
 	def jsSelect: html.Element = {
-		jqSelect.get.asInstanceOf[html.Element]
+		jqSelect.get(0).asInstanceOf[html.Element]
 	}
 }
 
@@ -105,10 +105,10 @@ sealed trait Reaction extends Select {
 	}
 
 	def onHover(enter: () => Unit, exit: () => Unit) = {
-		jsSelect.onmouseover = (e: dom.MouseEvent) => {
+		jsSelect.onmouseenter = (e: dom.MouseEvent) => {
 			enter()
 		}
-		jsSelect.onmouseover = (e: dom.MouseEvent) => {
+		jsSelect.onmouseleave = (e: dom.MouseEvent) => {
 			exit()
 		}
 	}
@@ -133,8 +133,8 @@ sealed trait Attributes extends Select {
 		}
 	}
 
-	def setCss(k: String, v: String): Unit = {
-		jqSelect.css(k, v)
+	def setCss(style: Map[String,String]): Unit = {
+		for((k,v) <- style) jqSelect.css(k,v)
 	} 
 
 	def getCss(k: String): String = {
@@ -161,9 +161,8 @@ sealed trait Position extends Select with Attributes {
 	def position: Point = new Point(jsSelect.offsetLeft, jsSelect.offsetTop)
 
 	def setPosition(p: Point): Unit = {
-		setCss("position", "absolute")
-		setCss("left", p.x.toString + "px")
-		setCss("top", p.y.toString + "px")
+		val style = Map("position" -> "absolute", "left" -> (p.x.toString + "px"), "top" -> (p.y.toString + "px"))
+		setCss(style)
 	}
 }
 

@@ -35,7 +35,7 @@ sealed case class Delete(n: Node) extends Command
 
 sealed case class Update(n: Node) extends Command
 
-sealed case class Css(n: Node, k: String, v: String) extends Command
+sealed case class Css(n: Node, style: Map[String,String]) extends Command
 
 sealed case class Animate(n: Node, style: Map[String,String], time: Long) extends Command
 

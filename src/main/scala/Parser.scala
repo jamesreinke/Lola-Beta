@@ -23,7 +23,7 @@ object Parse {
 	def apply(c: interface.Command): Unit = c match {
 		case interface.Create(n: interface.Node) => Parse(n).create()
 		case interface.Delete(n: interface.Node) => Parse(n).remove
-		case interface.Css(n: interface.Node, k: String, v: String) => Parse(n).setCss(k, v)
+		case interface.Css(n: interface.Node, style: Map[String,String]) => Parse(n).setCss(style)
 		case interface.Update(n: interface.Node) => Parse(n) // Add update logic here
 		case interface.OnClick(n: interface.Node, c: interface.Command) => Parse(n).onClick(() => Parse(c))
 		case interface.OnHover(n: interface.Node, c: interface.Command, c2: interface.Command) => Parse(n).onHover(() => Parse(c), () => Parse(c2))
