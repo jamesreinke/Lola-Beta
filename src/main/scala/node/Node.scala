@@ -1,7 +1,11 @@
 package lola.js
 
+import lola.Parse
+import upickle.default._
+
 import scala.scalajs.js.JSApp
-import org.scalajs.dom._
+import org.scalajs.dom
+import dom._
 import org.scalajs.jquery.{jQuery, JQuery}
 
 object Lola {
@@ -26,17 +30,19 @@ object Lola {
 	/*
 		Send data, wait for a response... decode the message and execute the abstract syntax tree.
 	*/
-	def get(url: String, data: String = "", timeout: Int = 0, headers: Map[String, String] = Map(), withCredentials: Boolean = false): Unit = {
-		Ajax.get(url, data, timeout, headers, withCredentials).onSuccess {
+	def get(url: String, n: Node, timeout: Int = 0, headers: Map[String, String] = Map(), withCredentials: Boolean = false): Unit = {
+		Ajax.get(url, write(Parse(n)), timeout, headers, withCredentials).onSuccess {
 			case xhr => {
-				// Do something with the response
+				val c = read[lola.interface.Command](xhr.responseText)
+				Parse(c)
 			}
 		}
 	}
-	def post(url: String, data: String = "", timeout: Int = 0, headers: Map[String, String] = Map(), withCredentials: Boolean = false): Unit = {
-		Ajax.post(url, data, timeout, headers, withCredentials).onSuccess {
+	def post(url: String,  n: Node, timeout: Int = 0, headers: Map[String, String] = Map(), withCredentials: Boolean = false): Unit = {
+		Ajax.post(url, write(Parse(n)), timeout, headers, withCredentials).onSuccess {
 			case xhr => {
-				// Do something with the response
+				val c = read[lola.interface.Command](xhr.responseText)
+				Parse(c)
 			}
 		}
 	}
@@ -90,6 +96,30 @@ sealed trait JQAnimation extends JQSelect {
 	
 }
 
+sealed trait Reaction extends Select {
+
+	def onClick(f: () => Unit): Unit = {
+		jsSelect.onclick = (e: dom.MouseEvent) => {
+			f()
+		}
+	}
+
+	def onHover(enter: () => Unit, exit: () => Unit) = {
+		jsSelect.onmouseover = (e: dom.MouseEvent) => {
+			enter()
+		}
+		jsSelect.onmouseover = (e: dom.MouseEvent) => {
+			exit()
+		}
+	}
+
+	def onKeyUp(f: () => Unit): Unit = {
+		jsSelect.onkeyup = (e: dom.KeyboardEvent) => {
+			f()
+		}
+	}
+}
+
 sealed trait Attributes extends Select {
 
 	def removeAttribute(attr: String): Unit = {
@@ -103,11 +133,19 @@ sealed trait Attributes extends Select {
 		}
 	}
 
+	def setCss(k: String, v: String): Unit = {
+		jqSelect.css(k, v)
+	} 
+
+	def getCss(k: String): String = {
+		jqSelect.css(k)
+	}
+
 	def setAttribute(attr: String, value: String): Unit = jsSelect.setAttribute(attr, value)
 
 }
 
-sealed trait Position extends Select {
+sealed trait Position extends Select with Attributes {
 
 	sealed class Point(val x: Double, val y: Double) {
 
@@ -123,9 +161,9 @@ sealed trait Position extends Select {
 	def position: Point = new Point(jsSelect.offsetLeft, jsSelect.offsetTop)
 
 	def setPosition(p: Point): Unit = {
-		// style("position", "absolute")
-		// style("left", p.x.toString + "px")
-		// style("top", p.y.toString + "px")
+		setCss("position", "absolute")
+		setCss("left", p.x.toString + "px")
+		setCss("top", p.y.toString + "px")
 	}
 }
 
@@ -136,7 +174,7 @@ sealed class Node(
 	val sText: String, 
 	val eText: String, 
 	val items: List[Node], 
-	val id: String) extends JSApp with Select with JQAnimation {
+	val id: String) extends JSApp with Select with JQAnimation with Position with Attributes with Reaction {
 
 	private val atrStr = attributes map { x => x._1 + "=" + "'" + x._2 + "'" } mkString " "
 	private val styleStr = style map { x => x._1 + ":" + x._2 + ";" } mkString ""
@@ -153,9 +191,24 @@ sealed class Node(
 		"""
 	}
 
+	private def self = this
+
 	def remove: Unit = {
 		jqSelect.remove
-		Lola.remove(this)
+		Lola.remove(self)
+		cache = None
+	}
+
+	object create {
+		def apply(): Unit = {
+			remove
+			jQuery("body").append(render)
+			Lola.register(self)
+		}
+		def apply(item: Node): Unit = {
+			item.jqSelect.append(render)
+			Lola.register(self)
+		}
 	}
 
 	def main: Unit = {}

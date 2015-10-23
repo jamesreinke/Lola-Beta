@@ -27,9 +27,9 @@ sealed case class Node(
 
 sealed trait Command
 
-sealed case class OnClick(n: Node, cm: Option[Command]) extends Command
+sealed case class OnClick(n: Node, cm: Command) extends Command
 
-sealed case class OnHover(n: Node, cm: Option[Command]) extends Command
+sealed case class OnHover(n: Node, cm: Command, cm2: Command) extends Command
 
 sealed case class Create(n: Node) extends Command
 
