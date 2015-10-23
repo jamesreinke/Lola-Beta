@@ -24,9 +24,9 @@ object Parse {
 		case interface.Create(n: interface.Node) => Parse(n).create()
 		case interface.Delete(n: interface.Node) => Parse(n).remove
 		case interface.Css(n: interface.Node, style: Map[String,String]) => Parse(n).setCss(style)
-		case interface.Update(n: interface.Node) => Parse(n) // Add update logic here
 		case interface.OnClick(n: interface.Node, c: interface.Command) => Parse(n).onClick(() => Parse(c))
 		case interface.OnHover(n: interface.Node, c: interface.Command, c2: interface.Command) => Parse(n).onHover(() => Parse(c), () => Parse(c2))
+		case interface.SlideUp(n: interface.Node, mili: Int) => Parse(n).slideUp(mili)
 		case interface.Get(n: interface.Node, url: String) => js.Lola.get(url, Parse(n))
 		case interface.Post(n: interface.Node, url: String) => js.Lola.post(url, Parse(n))
 	}
