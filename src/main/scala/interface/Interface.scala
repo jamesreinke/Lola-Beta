@@ -23,6 +23,19 @@ sealed case class Node(
 	val items: List[Node],
 	val id: String)
 
+object el {
+	def apply(
+		tag: String = "",
+		attributes: Map[String,String] = Map(),
+		style: Map[String,String] = Map(),
+		sText: String = "",
+		eText: String = "",
+		items: List[Node] = List(),
+		id: String = Lola.assign): Node = {
+		new Node(tag, attributes, style, sText, eText, items, id)
+	}
+}
+
 sealed trait Command
 
 sealed case class OnClick(n: Node, cm: Command) extends Command

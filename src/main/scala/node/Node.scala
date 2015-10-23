@@ -197,6 +197,12 @@ sealed class Node(
 		Lola.remove(self)
 		cache = None
 	}
+	/*
+		Convenient jquery replacement method... must figure out how to utilize this for Update
+	*/
+	def replace(n: Node): Unit = {
+		jqSelect.replaceWith(n.jqSelect)
+	}
 
 	object create {
 		def apply(): Unit = {
