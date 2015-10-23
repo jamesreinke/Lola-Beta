@@ -14,8 +14,6 @@ object Lola {
 
 }
 
-
-
 sealed case class Node(
 	val tag: String,
 	val attributes: Map[String, String],
