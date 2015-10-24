@@ -25,7 +25,7 @@ object Application extends JSApp {
 			val attr = Map("class" -> "col-md-3")
 			val n = el("div", sText = "Dick Cheese", style = style, attributes = attr)
 			val c = new Create(n)
-			val c2 = new OnClick(n, new SlideUp(n, 800))
+			val c2 = new OnClick(n, new Post("", n))
 			Parse(DecodeCommands(Encode(List(c, c2))))
 		}
 	}
