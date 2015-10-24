@@ -3,6 +3,7 @@ package lola.js
 import lola.Parse
 import upickle.default._
 
+import lola.interface.{Encode, DecodeCommands, DecodeNodes}
 import scala.scalajs.js.JSApp
 import org.scalajs.dom
 import dom._
@@ -33,7 +34,7 @@ object Lola {
 	def get(url: String, timeout: Int = 0, headers: Map[String, String] = Map(), withCredentials: Boolean = false): Unit = {
 		Ajax.get(url, "", timeout, headers, withCredentials).onSuccess {
 			case xhr => {
-				val c = read[lola.interface.Command](xhr.responseText)
+				val c = DecodeCommands(xhr.responseText)
 				Parse(c)
 			}
 		}
@@ -42,7 +43,7 @@ object Lola {
 	def post(url: String,  n: Node, timeout: Int = 0, headers: Map[String, String] = Map(), withCredentials: Boolean = false): Unit = {
 		Ajax.post(url, write(Parse(n)), timeout, headers, withCredentials).onSuccess {
 			case xhr => {
-				val c = read[lola.interface.Command](xhr.responseText)
+				val c = DecodeCommands(xhr.responseText)
 				Parse(c)
 			}
 		}
