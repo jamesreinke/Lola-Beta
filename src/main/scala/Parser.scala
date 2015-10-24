@@ -28,6 +28,9 @@ object Parse {
 		case interface.OnClick(n: interface.Node, c: interface.Command) => Parse(n).onClick(() => Parse(c))
 		case interface.OnHover(n: interface.Node, c: interface.Command, c2: interface.Command) => Parse(n).onHover(() => Parse(c), () => Parse(c2))
 		case interface.SlideUp(n: interface.Node, mili: Int) => Parse(n).slideUp(mili)
+		case interface.SlideDown(n: interface.Node, mili: Int) => Parse(n).slideDown(mili)
+		case interface.FadeIn(n: interface.Node, mili: Int) => Parse(n).fadeIn(mili)
+		case interface.FadeOut(n: interface.Node, mili: Int) => Parse(n).fadeOut(mili)
 		case interface.Get(url: String) => js.Lola.get(url)
 		case interface.Post(url: String, n: interface.Node) => js.Lola.post(url, Parse(n))
 	}

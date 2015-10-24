@@ -46,14 +46,16 @@ sealed case class Create(n: Node) extends Command
 
 sealed case class Delete(n: Node) extends Command
 
-sealed case class Update(n: Node) extends Command
-
 sealed case class Css(n: Node, style: Map[String,String]) extends Command
-
-sealed case class Animate(n: Node, style: Map[String,String], time: Long) extends Command
 
 sealed case class Get(url: String) extends Command
 
 sealed case class Post(url: String, n: Node) extends Command
 
 sealed case class SlideUp(n: Node, mili: Int = 400) extends Command
+
+sealed case class SlideDown(n: Node, mili: Int = 400) extends Command
+
+sealed case class FadeOut(n: Node, mili: Int = 400) extends Command
+
+sealed case class FadeIn(n: Node, mili: Int = 400) extends Command
