@@ -26,8 +26,7 @@ object Application extends JSApp {
 			val n = el("div", sText = "Dick Cheese", style = style, attributes = attr)
 			val c = new Create(n)
 			val c2 = new OnClick(n, new SlideUp(n, 800))
-			// Parse(read[Command](write(c)))
-			// Parse(read[Command](write(c2)))
+			Parse(DecodeCommands(Encode(List(c, c2))))
 		}
 	}
 

@@ -18,19 +18,18 @@ object Encode {
 
 }
 
-object ExtractNodes {
 
-	def apply(s: String): List[Node] = {
-		read[List[Node]](s)
-	}
-
-}
-
-object ExtractCommands {
+object DecodeCommands {
 
 	def apply(s: String): List[Command] = {
 		read[List[Command]](s)
 	}
-	
+
+}
+
+object DecodeNodes {
+	def apply(s: String): List[Node] = {
+		read[List[Node]](s)
+	} 
 }
 
