@@ -54,8 +54,6 @@ sealed case class Get(url: String) extends Command
 
 sealed case class Post(url: String, n: List[Node]) extends Command
 
-sealed case class Animate(style: Map[String,String], mili: Int = 400) extends Command // TODO: Implement in Scala JS and in Parser
-
 sealed case class SlideUp(n: Node, mili: Int = 400) extends Command
 
 sealed case class SlideDown(n: Node, mili: Int = 400) extends Command

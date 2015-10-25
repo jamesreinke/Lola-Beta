@@ -18,7 +18,14 @@ object Parse {
 		Javascript Node -> Interface Node
 	*/
 
-	def apply(n: js.Node): interface.Node = new interface.Node(n.tag, n.attributes, n.style, n.text, n.value, n.items map { x => Parse(x) }, n.id)
+	def apply(n: js.Node): interface.Node = {
+		/*
+			We need to update this for all values.  I don't think there will be much of a client performance problem
+				doing so many node lookups for a single Ajax request.
+		*/
+		n.value = n.jqSelect.value().toString
+		new interface.Node(n.tag, n.attributes, n.style, n.text, n.value, n.items map { x => Parse(x) }, n.id)
+	}
 
 	/*
 		Interface Node -> Javascript Node

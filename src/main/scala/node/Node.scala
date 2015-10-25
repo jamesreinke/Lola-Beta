@@ -209,6 +209,21 @@ sealed class Node(
 		</${tag}>
 		"""
 	}
+	/*
+		Returns true or false if this html element contains the matched string
+	*/
+	def contains(s: String, n: Node = this): Boolean = {
+		n.text contains s match {
+			case true => true
+			case false => {
+				for(item <- items) contains(s, item) match {
+					case true => true
+					case false => {}
+				}
+				false
+			}
+		}
+	}
 
 	private def self = this
 
