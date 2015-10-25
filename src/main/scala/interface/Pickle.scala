@@ -27,9 +27,9 @@ object DecodeCommands {
 
 }
 
-object DecodeNodes {
-	def apply(s: String): List[Node] = {
-		read[List[Node]](s)
+object Decode {
+	def apply(s: String): Node = {
+		read[Node](s)
 	} 
 }
 

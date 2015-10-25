@@ -3,7 +3,7 @@ package lola.js
 import lola.Parse
 import upickle.default._
 
-import lola.interface.{Encode, DecodeCommands, DecodeNodes}
+import lola.interface.{Encode, DecodeCommands, Decode}
 import scala.scalajs.js.JSApp
 import org.scalajs.dom
 import dom._

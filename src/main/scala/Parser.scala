@@ -27,6 +27,7 @@ object Parse {
 		case interface.Css(n: interface.Node, style: Map[String,String]) => Parse(n).setCss(style)
 		case interface.OnClick(n: interface.Node, c: interface.Command) => Parse(n).onClick(() => Parse(c))
 		case interface.OnHover(n: interface.Node, c: interface.Command, c2: interface.Command) => Parse(n).onHover(() => Parse(c), () => Parse(c2))
+		case interface.OnKeyUp(n: interface.Node, c: interface.Command) => Parse(n).onKeyUp(() => Parse(c))
 		case interface.SlideUp(n: interface.Node, mili: Int) => Parse(n).slideUp(mili)
 		case interface.SlideDown(n: interface.Node, mili: Int) => Parse(n).slideDown(mili)
 		case interface.FadeIn(n: interface.Node, mili: Int) => Parse(n).fadeIn(mili)

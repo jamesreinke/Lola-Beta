@@ -40,6 +40,8 @@ sealed case class OnClick(n: Node, cm: Command) extends Command
 
 sealed case class OnHover(n: Node, cm: Command, cm2: Command) extends Command
 
+sealed case class OnKeyUp(n: Node, cm: Command) extends Command
+
 sealed case class Create(n: Node) extends Command
 
 sealed case class Delete(n: Node) extends Command
