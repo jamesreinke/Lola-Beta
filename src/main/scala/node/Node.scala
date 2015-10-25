@@ -36,16 +36,16 @@ object Lola {
 		Ajax.get(url, "", timeout, headers, withCredentials).onSuccess {
 			case xhr => {
 				val c = DecodeCommands(xhr.responseText)
-				//Parse(c)
+				Parse(c)
 			}
 		}
 	}
 	
 	def post(url: String,  n: Node, timeout: Int = 0, headers: Map[String, String] = Map(), withCredentials: Boolean = false): Unit = {
-		Ajax.post(url, /*write(Parse(n))*/"", timeout, headers, withCredentials).onSuccess {
+		Ajax.post(url, write(Parse(n)), timeout, headers, withCredentials).onSuccess {
 			case xhr => {
 				val cms = DecodeCommands(xhr.responseText)
-				//Parse(cms)
+				Parse(cms)
 			}
 		}
 	}

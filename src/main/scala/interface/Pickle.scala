@@ -5,15 +5,15 @@ import upickle.default._
 object Encode {
 
 	def apply(n: Node): String = {
-		""//write(List(n))
+		write(List(n))
 	}
 
 	def apply(c: Command): String = {
-		""//write(List(c))
+		write(List(c))
 	}
 
 	def apply(cms: List[Command]): String = {
-		""//write(cms)
+		write(cms)
 	}
 
 }
@@ -22,14 +22,14 @@ object Encode {
 object DecodeCommands {
 
 	def apply(s: String): List[Command] = {
-		List()//read[List[Command]](s)
+		read[List[Command]](s)
 	}
 
 }
 
 object Decode {
 	def apply(s: String): Node = {
-		el()//read[Node](s)
+		read[Node](s)
 	} 
 }
 
