@@ -48,6 +48,8 @@ sealed case class Delete(n: Node) extends Command
 
 sealed case class Css(n: Node, style: Map[String,String]) extends Command
 
+sealed case class Animate(css: Css, mili: Int = 400) extends Command // TODO: Implement in Scala JS and in Parser
+
 sealed case class Get(url: String) extends Command
 
 sealed case class Post(url: String, n: Node) extends Command
