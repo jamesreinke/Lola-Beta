@@ -15,12 +15,13 @@ object Lola {
 }
 
 sealed case class Node(
-	val tag: String,
-	val attributes: Map[String, String],
-	val style: Map[String, String],
-	val text: String,
-	val items: List[Node],
-	val id: String)
+	var tag: String,
+	var attributes: Map[String, String],
+	var style: Map[String, String],
+	var text: String,
+	var value: String,
+	var items: List[Node],
+	var id: String) 
 
 object el {
 	def apply(
@@ -28,9 +29,10 @@ object el {
 		attributes: Map[String,String] = Map(),
 		style: Map[String,String] = Map(),
 		text: String = "",
+		value: String = "",
 		items: List[Node] = List(),
 		id: String = Lola.assign): Node = {
-		new Node(tag, attributes, style, text, items, id)
+		new Node(tag, attributes, style, text, value, items, id)
 	}
 }
 
@@ -46,13 +48,13 @@ sealed case class Create(n: Node) extends Command
 
 sealed case class Delete(n: Node) extends Command
 
-sealed case class Css(n: Node, style: Map[String,String]) extends Command
-
-sealed case class Animate(css: Css, mili: Int = 400) extends Command // TODO: Implement in Scala JS and in Parser
+sealed case class Update(n: Node) extends Command
 
 sealed case class Get(url: String) extends Command
 
 sealed case class Post(url: String, n: Node) extends Command
+
+sealed case class Animate(style: Map[String,String], mili: Int = 400) extends Command // TODO: Implement in Scala JS and in Parser
 
 sealed case class SlideUp(n: Node, mili: Int = 400) extends Command
 

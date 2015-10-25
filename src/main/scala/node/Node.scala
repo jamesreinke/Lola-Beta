@@ -12,7 +12,7 @@ import org.scalajs.jquery.{jQuery, JQuery}
 object Lola {
 
 	/* Permenant nodes, referenced by id */
-	var nodes: scala.collection.mutable.Map[String, Node] = scala.collection.mutable.Map()
+	var nodes: Map[String, Node] = Map()
 
 	def register(n: Node): Unit = nodes += n.id -> n
 
@@ -31,20 +31,21 @@ object Lola {
 	/*
 		Send data, wait for a response... decode the message and execute the abstract syntax tree.
 	*/
+	
 	def get(url: String, timeout: Int = 0, headers: Map[String, String] = Map(), withCredentials: Boolean = false): Unit = {
 		Ajax.get(url, "", timeout, headers, withCredentials).onSuccess {
 			case xhr => {
 				val c = DecodeCommands(xhr.responseText)
-				Parse(c)
+				//Parse(c)
 			}
 		}
 	}
 	
 	def post(url: String,  n: Node, timeout: Int = 0, headers: Map[String, String] = Map(), withCredentials: Boolean = false): Unit = {
-		Ajax.post(url, write(Parse(n)), timeout, headers, withCredentials).onSuccess {
+		Ajax.post(url, /*write(Parse(n))*/"", timeout, headers, withCredentials).onSuccess {
 			case xhr => {
-				val c = DecodeCommands(xhr.responseText)
-				Parse(c)
+				val cms = DecodeCommands(xhr.responseText)
+				//Parse(cms)
 			}
 		}
 	}
@@ -55,7 +56,7 @@ object Lola {
 */
 sealed trait JQSelect {
 
-	val id: String
+	var id: String
 
 	var cache: Option[JQuery] = None
 
@@ -124,26 +125,60 @@ sealed trait Reaction extends Select {
 
 sealed trait Attributes extends Select {
 
-	def removeAttribute(attr: String): Unit = {
-		jqSelect.removeAttr(attr)
-	}
+	var attributes: Map[String,String]
+	var style: Map[String,String]
+	var value: String
+	var text: String
 
-	def getAttribute(attr: String): Option[String] = {
-		jsSelect.getAttribute(attr) match {
-			case "" => None
-			case s => Some(s)
-		}
+	def update(n: lola.interface.Node): Unit = {
+		setValue(n.value)
+		setCss(n.style)
+		setText(n.text)
+		for(attr <- n.attributes) setAttribute(attr._1, attr._2) // need to find a way to clear all attributes
+		clearClass
+		addClass(n.attributes.getOrElse("class", ""))
 	}
-
+	/*
+		Class
+	*/
+	def addClass(s: String): Unit = {
+		attributes += ("class" -> (s + " " + attributes.getOrElse("class", "")))
+		jqSelect.addClass(s)
+	}
+	def removeClass(s: String): Unit = {
+		style -= (s)
+		jqSelect.removeClass(s)
+	}
+	def clearClass: Unit = {
+		jqSelect.attr("class", "")
+	}
+	/*
+		Attributes
+	*/
+	def setAttribute(k: String, v: String): Unit = {
+		attributes += (k -> v)
+		jqSelect.attr(k, v)
+	}
+	/*
+		Values
+	*/
+	def setValue(s: String): Unit = {
+		jqSelect.value(s)
+	}
+	/*
+		Text
+	*/
+	def setText(s: String): Unit = {
+		text = s
+		jqSelect.text(s)
+	}
+	/*
+		Css
+	*/
 	def setCss(style: Map[String,String]): Unit = {
+		jqSelect.attr("style", "")
 		for((k,v) <- style) jqSelect.css(k,v)
-	} 
-
-	def getCss(k: String): String = {
-		jqSelect.css(k)
 	}
-
-	def setAttribute(attr: String, value: String): Unit = jsSelect.setAttribute(attr, value)
 
 }
 
@@ -169,12 +204,13 @@ sealed trait Position extends Select with Attributes {
 }
 
 sealed class Node(
-	val tag: String, 
-	val attributes: Map[String, String], 
-	val style: Map[String,String], 
-	val text: String,
-	val items: List[Node], 
-	val id: String) extends JSApp with Select with JQAnimation with Position with Attributes with Reaction {
+	var tag: String, 
+	var attributes: Map[String, String], 
+	var style: Map[String,String], 
+	var text: String,
+	var value: String,
+	var items: List[Node], 
+	var id: String) extends JSApp with Select with JQAnimation with Attributes with Reaction {
 
 	private val atrStr = attributes map { x => x._1 + "=" + "'" + x._2 + "'" } mkString " "
 	private val styleStr = style map { x => x._1 + ":" + x._2 + ";" } mkString ""
@@ -196,12 +232,6 @@ sealed class Node(
 		jqSelect.remove
 		Lola.remove(self)
 		cache = None
-	}
-	/*
-		Convenient jquery replacement method... must figure out how to utilize this for Update
-	*/
-	def replace(n: Node): Unit = {
-		jqSelect.replaceWith(n.jqSelect)
 	}
 
 	object create {
