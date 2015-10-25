@@ -172,8 +172,7 @@ sealed class Node(
 	val tag: String, 
 	val attributes: Map[String, String], 
 	val style: Map[String,String], 
-	val sText: String, 
-	val eText: String, 
+	val text: String,
 	val items: List[Node], 
 	val id: String) extends JSApp with Select with JQAnimation with Position with Attributes with Reaction {
 
@@ -185,9 +184,8 @@ sealed class Node(
 	def render = {
 		s"""
 		<${tag} id=${id} ${atrStr} style="${styleStr}">
-			${sText}
+			${text}
 			${items mkString ""}
-			${eText}
 		</${tag}>
 		"""
 	}

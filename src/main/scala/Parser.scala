@@ -8,14 +8,14 @@ object Parse {
 		Javascript Node -> Interface Node
 	*/
 
-	def apply(n: js.Node): interface.Node = new interface.Node(n.tag, n.attributes, n.style, n.sText, n.eText, n.items map { x => Parse(x) }, n.id)
+	def apply(n: js.Node): interface.Node = new interface.Node(n.tag, n.attributes, n.style, n.text, n.items map { x => Parse(x) }, n.id)
 
 	/*
 		Interface Node -> Javascript Node
 	*/
 	def apply(n: interface.Node): js.Node = lola.js.Lola.getById(n.id) match {
 		case Some(node) => node
-		case None => new js.Node(n.tag, n.attributes, n.style, n.sText, n.eText, n.items map { x => Parse(x) }, n.id)
+		case None => new js.Node(n.tag, n.attributes, n.style, n.text, n.items map { x => Parse(x) }, n.id)
 	}
 
 	/*

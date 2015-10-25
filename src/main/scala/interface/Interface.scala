@@ -18,8 +18,7 @@ sealed case class Node(
 	val tag: String,
 	val attributes: Map[String, String],
 	val style: Map[String, String],
-	val sText: String,
-	val eText: String,
+	val text: String,
 	val items: List[Node],
 	val id: String)
 
@@ -28,11 +27,10 @@ object el {
 		tag: String = "",
 		attributes: Map[String,String] = Map(),
 		style: Map[String,String] = Map(),
-		sText: String = "",
-		eText: String = "",
+		text: String = "",
 		items: List[Node] = List(),
 		id: String = Lola.assign): Node = {
-		new Node(tag, attributes, style, sText, eText, items, id)
+		new Node(tag, attributes, style, text, items, id)
 	}
 }
 
