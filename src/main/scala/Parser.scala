@@ -2,7 +2,17 @@ package lola
 
 import upickle.default._
 
+
 object Parse {
+
+
+	def jsToScala(ns: List[js.Node]): List[interface.Node] = {
+		(for(n <- ns) yield Parse(n)) toList
+	} 
+
+	def scalaToJs(ns: List[interface.Node]): List[js.Node] = {
+		(for(n <- ns) yield Parse(n)) toList
+	} 
 
 	/*
 		Javascript Node -> Interface Node
@@ -18,6 +28,7 @@ object Parse {
 		case None => new js.Node(n.tag, n.attributes, n.style, n.text, n.value, n.items map { x => Parse(x) }, n.id)
 	}
 
+
 	/*
 		Interface Command -> Javascript Unit Execution -> Interface Node
 	*/
@@ -32,7 +43,7 @@ object Parse {
 		case interface.FadeIn(n: interface.Node, mili: Int) => Parse(n).fadeIn(mili)
 		case interface.FadeOut(n: interface.Node, mili: Int) => Parse(n).fadeOut(mili)
 		case interface.Get(url: String) => js.Lola.get(url)
-		case interface.Post(url: String, n: interface.Node) => js.Lola.post(url, Parse(n))
+		case interface.Post(url: String, n: List[interface.Node]) => js.Lola.post(url, Parse.scalaToJs(n))
 		case interface.Update(n: interface.Node) => Parse(n).update(n)
 	}
 

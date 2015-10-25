@@ -28,8 +28,8 @@ object DecodeCommands {
 }
 
 object Decode {
-	def apply(s: String): Node = {
-		read[Node](s)
+	def apply(s: String): List[Node] = {
+		read[List[Node]](s)
 	} 
 }
 

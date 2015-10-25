@@ -41,8 +41,8 @@ object Lola {
 		}
 	}
 	
-	def post(url: String,  n: Node, timeout: Int = 0, headers: Map[String, String] = Map(), withCredentials: Boolean = false): Unit = {
-		Ajax.post(url, write(Parse(n)), timeout, headers, withCredentials).onSuccess {
+	def post(url: String, n: List[Node], timeout: Int = 0, headers: Map[String, String] = Map(), withCredentials: Boolean = false): Unit = {
+		Ajax.post(url, write(Parse.jsToScala(n)), timeout, headers, withCredentials).onSuccess {
 			case xhr => {
 				val cms = DecodeCommands(xhr.responseText)
 				Parse(cms)
@@ -135,22 +135,6 @@ sealed trait Attributes extends Select {
 		setCss(n.style)
 		setText(n.text)
 		for(attr <- n.attributes) setAttribute(attr._1, attr._2) // need to find a way to clear all attributes
-		clearClass
-		addClass(n.attributes.getOrElse("class", ""))
-	}
-	/*
-		Class
-	*/
-	def addClass(s: String): Unit = {
-		attributes += ("class" -> (s + " " + attributes.getOrElse("class", "")))
-		jqSelect.addClass(s)
-	}
-	def removeClass(s: String): Unit = {
-		style -= (s)
-		jqSelect.removeClass(s)
-	}
-	def clearClass: Unit = {
-		jqSelect.attr("class", "")
 	}
 	/*
 		Attributes
