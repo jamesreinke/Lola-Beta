@@ -129,12 +129,16 @@ sealed trait Attributes extends Select {
 	var style: Map[String,String]
 	var value: String
 	var text: String
+	var items: List[Node]
 
 	def update(n: lola.interface.Node): Unit = {
 		setValue(n.value)
 		setCss(n.style)
-		setText(n.text)
+		if(items.length == 0) setText(n.text)
 		for(attr <- n.attributes) setAttribute(attr._1, attr._2) // need to find a way to clear all attributes
+		for((item,index) <- items.zipWithIndex) {
+			item.update(n.items(index))
+		} 
 	}
 	/*
 		Attributes
