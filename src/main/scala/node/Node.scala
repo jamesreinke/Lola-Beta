@@ -134,11 +134,9 @@ sealed trait Attributes extends Select {
 	def update(n: lola.interface.Node): Unit = {
 		setValue(n.value)
 		setCss(n.style)
-		if(items.length == 0) setText(n.text)
-		for(attr <- n.attributes) setAttribute(attr._1, attr._2) // need to find a way to clear all attributes
-		for((item,index) <- items.zipWithIndex) {
-			item.update(n.items(index))
-		} 
+		if(items.length == 0) setText(n.text) // Setting the text destroys all descendents
+		for(attr <- n.attributes) setAttribute(attr._1, attr._2)
+		for((item,index) <- items.zipWithIndex) item.update(n.items(index))
 	}
 	/*
 		Attributes

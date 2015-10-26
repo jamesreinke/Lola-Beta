@@ -38,6 +38,8 @@ object el {
 
 sealed trait Command
 
+sealed case class Clear() extends Command
+
 sealed case class OnClick(n: Node, cm: Command) extends Command
 
 sealed case class OnHover(n: Node, cm: Command, cm2: Command) extends Command

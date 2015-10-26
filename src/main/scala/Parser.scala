@@ -1,7 +1,7 @@
 package lola
 
 import upickle.default._
-
+import org.scalajs.jquery.{jQuery, JQuery}
 
 object Parse {
 
@@ -52,6 +52,7 @@ object Parse {
 		case interface.Get(url: String) => js.Lola.get(url)
 		case interface.Post(url: String, n: List[interface.Node]) => js.Lola.post(url, Parse.scalaToJs(n))
 		case interface.Update(n: interface.Node) => Parse(n).update(n)
+		case interface.Clear() => jQuery("body").empty()
 	}
 
 	def apply(cms: List[interface.Command]): Unit = {
