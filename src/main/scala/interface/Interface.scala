@@ -46,10 +46,22 @@ object Clear {
 }
 
 object OnClick {
-	def apply(n: Node, cm: Command) = {
-		new OnClick(n, cm)
+	def apply(n: Node, cms: List[Command]) = {
+		new OnClick(n, cms)
 	}
-	sealed case class OnClick(n: Node, cm: Command) extends Command
+	def apply(n: Node, cm: Command) = {
+		new OnClick(n, List(cm))
+	}
+	def apply(n: Node, cm: Command, cm2: Command) = {
+		new OnClick(n, List(cm, cm2))
+	}
+	def apply(n: Node, cm: Command, cm2: Command, cm3: Command) = {
+		new OnClick(n, List(cm, cm2, cm3))
+	}
+	def apply(n: Node, cm: Command, cm2: Command, cm3: Command, cm4: Command) = {
+		new OnClick(n, List(cm, cm2, cm3, cm4))
+	}
+	sealed case class OnClick(n: Node, cm: List[Command]) extends Command
 }
 
 object OnHover {
@@ -61,10 +73,22 @@ object OnHover {
 
 
 object OnKeyUp {
-	def apply(n: Node, cm: Command) = {
-		new OnKeyUp(n, cm)
+	def apply(n: Node, cms: List[Command]) = {
+		new OnKeyUp(n, cms)
 	}
-	sealed case class OnKeyUp(n: Node, cm: Command) extends Command
+	def apply(n: Node, cm: Command) = {
+		new OnKeyUp(n, List(cm))
+	}
+	def apply(n: Node, cm: Command, cm2: Command) = {
+		new OnKeyUp(n, List(cm, cm2))
+	}
+	def apply(n: Node, cm: Command, cm2: Command, cm3: Command) = {
+		new OnKeyUp(n, List(cm, cm2, cm3))
+	}
+	def apply(n: Node, cm: Command, cm2: Command, cm3: Command, cm4: Command) = {
+		new OnKeyUp(n, List(cm, cm2, cm3, cm4))
+	}
+	sealed case class OnKeyUp(n: Node, cm: List[Command]) extends Command
 }
 
 object Create {

@@ -42,9 +42,9 @@ object Parse {
 	def apply(c: interface.Command): Unit = c match {
 		case interface.Create.Create(n: interface.Node) => Parse(n).create()
 		case interface.Delete.Delete(n: interface.Node) => Parse(n).remove
-		case interface.OnClick.OnClick(n: interface.Node, c: interface.Command) => Parse(n).onClick(() => Parse(c))
+		case interface.OnClick.OnClick(n: interface.Node, c: List[interface.Command]) => Parse(n).onClick(() => Parse(c))
 		case interface.OnHover.OnHover(n: interface.Node, c: interface.Command, c2: interface.Command) => Parse(n).onHover(() => Parse(c), () => Parse(c2))
-		case interface.OnKeyUp.OnKeyUp(n: interface.Node, c: interface.Command) => Parse(n).onKeyUp(() => Parse(c))
+		case interface.OnKeyUp.OnKeyUp(n: interface.Node, c: List[interface.Command]) => Parse(n).onKeyUp(() => Parse(c))
 		case interface.SlideUp.SlideUp(n: interface.Node, mili: Int) => Parse(n).slideUp(mili)
 		case interface.SlideDown.SlideDown(n: interface.Node, mili: Int) => Parse(n).slideDown(mili)
 		case interface.FadeIn.FadeIn(n: interface.Node, mili: Int) => Parse(n).fadeIn(mili)
