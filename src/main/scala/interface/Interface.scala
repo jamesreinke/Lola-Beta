@@ -101,6 +101,18 @@ object Post {
 	def apply(url: String, n: List[Node]) = {
 		new Post(url, n)
 	}
+	def apply(url: String, n: Node) = {
+		new Post(url, List(n))
+	}
+	def apply(url: String, n: Node, n2: Node) = {
+		new Post(url, List(n, n2))
+	}
+	def apply(url: String, n: Node, n2: Node, n3: Node) = {
+		new Post(url, List(n, n2, n3))
+	}
+	def apply(url: String, n: Node, n2: Node, n3: Node, n4: Node) = {
+		new Post(url, List(n, n2, n3, n4))
+	}
 	sealed case class Post(url: String, n: List[Node]) extends Command
 }
 

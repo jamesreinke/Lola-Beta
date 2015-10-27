@@ -131,11 +131,15 @@ sealed trait Attributes extends Select {
 	var text: String
 	var items: List[Node]
 
+	/*
+		Update a node to mirror the contents of an interface node.
+	*/
 	def update(n: lola.interface.Node): Unit = {
 		setValue(n.value)
 		setCss(n.style)
 		if(items.length == 0) setText(n.text) // Setting the text destroys all descendents
 		for(attr <- n.attributes) setAttribute(attr._1, attr._2)
+		// Does not work when items are mutable!!!  If list sizes vary or item to item position correspondance, this method does not work.
 		for((item,index) <- items.zipWithIndex) item.update(n.items(index))
 	}
 	/*
