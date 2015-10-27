@@ -18,7 +18,6 @@ object Encode {
 
 }
 
-
 object DecodeCommands {
 
 	def apply(s: String): List[Command] = {
