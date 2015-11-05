@@ -40,9 +40,12 @@ sealed trait Command
 
 object Clear {
 	def apply() = {
-		new Clear()
+		new Clear("body")
 	}
-	sealed case class Clear() extends Command
+	def apply(s: String) = {
+		new Clear(s)
+	}
+	sealed case class Clear(s: String) extends Command
 }
 
 object OnClick {
@@ -92,11 +95,9 @@ object OnKeyUp {
 }
 
 object Create {
-
 	def apply(n: Node) = {
 		new Create(n)
 	}
-
 	sealed case class Create(n: Node) extends Command
 }
 
@@ -106,21 +107,18 @@ object Delete {
 	}
 	sealed case class Delete(n: Node) extends Command
 }
-
 object Update {
 	def apply(n: Node) = {
 		new Update(n)
 	}
 	sealed case class Update(n: Node) extends Command
 }
-
 object Get {
 	def apply(url: String) = {
 		new Get(url)
 	}
 	sealed case class Get(url: String) extends Command
 }
-
 object Post {
 	def apply(url: String, n: List[Node]) = {
 		new Post(url, n)
@@ -139,31 +137,39 @@ object Post {
 	}
 	sealed case class Post(url: String, n: List[Node]) extends Command
 }
-
 object SlideUp {
 	def apply(n: Node, mili: Int = 400) = {
 		new SlideUp(n, mili)
 	}
 	sealed case class SlideUp(n: Node, mili: Int = 400) extends Command
 }
-
 object SlideDown {
 	def apply(n: Node, mili: Int = 400) = {
 		new SlideDown(n, mili)
 	}
 	sealed case class SlideDown(n: Node, mili: Int = 400) extends Command
 }
-
 object FadeOut {
 	def apply(n: Node, mili: Int = 400) = {
 		new FadeOut(n, mili)
 	}
 	sealed case class FadeOut(n: Node, mili: Int = 400) extends Command
 }
-
 object FadeIn {
 	def apply(n: Node, mili: Int = 400) = {
 		new FadeIn(n, mili)
 	}
 	sealed case class FadeIn(n: Node, mili: Int = 400) extends Command
+}
+object GetValue {
+	def apply(n: Node) = {
+		new GetValue(n)
+	}
+	sealed case class GetValue(n: Node) extends Command
+}
+object SetText {
+	def apply(n: Node, s: String) = {
+		new SetText(n, s)
+	}
+	sealed case class SetText(n: Node, s: String) extends Command
 }
