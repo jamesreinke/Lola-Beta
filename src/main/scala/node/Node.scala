@@ -199,7 +199,8 @@ sealed class Node(
 	var style: Map[String,String], 
 	var text: String,
 	var value: String,
-	var items: List[Node], 
+	var items: List[Node],
+	var javascript: String, 
 	var id: String) extends JSApp with Select with JQAnimation with Attributes with Reaction {
 
 	private val atrStr = attributes map { x => x._1 + "=" + "'" + x._2 + "'" } mkString " "
