@@ -51,7 +51,11 @@ object Parse {
 		case interface.FadeOut.FadeOut(n: interface.Node, mili: Int) => Parse(n).fadeOut(mili)
 		case interface.Get.Get(url: String) => js.Lola.get(url)
 		case interface.Post.Post(url: String, n: List[interface.Node]) => js.Lola.post(url, Parse.scalaToJs(n))
-		case interface.Update.Update(n: interface.Node) => Parse(n).update(n)
+		case interface.Update.Update(n: interface.Node) => {
+			val neu = n.copy()
+			neu.id = lola.interface.Lola.assign
+			Parse(n).update(Parse(neu))
+		}
 		case interface.Clear.Clear(s: String) => jQuery(s).empty()
 		case interface.GetValue.GetValue(n: interface.Node) => Parse(n).jqSelect.value()
 		case interface.SetText.SetText(n: interface.Node, s: String) => Parse(n).setText(s)

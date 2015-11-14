@@ -9,6 +9,9 @@ import org.scalajs.dom
 import dom._
 import org.scalajs.jquery.{jQuery, JQuery}
 
+/* 
+	Master object used for controlling communication logic between the client and the server.
+*/
 object Lola {
 
 	/* Permenant nodes, referenced by id */
@@ -133,14 +136,11 @@ sealed trait Attributes extends Select {
 
 	/*
 		Update a node to mirror the contents of an interface node.
+
+		TODO: Fix this function!!!  Maybe we can just delete it and recreate it in the same position?
 	*/
-	def update(n: lola.interface.Node): Unit = {
-		setValue(n.value)
-		setCss(n.style)
-		if(items.length == 0) setText(n.text) // Setting the text destroys all descendents
-		for(attr <- n.attributes) setAttribute(attr._1, attr._2)
-		// Does not work when items are mutable!!!  If list sizes vary or item to item position correspondance, this method does not work.
-		for((item,index) <- items.zipWithIndex) item.update(n.items(index))
+	def update(n: Node): Unit = {
+		jqSelect.html(n.render)
 	}
 	/*
 		Attributes
@@ -192,14 +192,16 @@ sealed trait Position extends Select with Attributes {
 		setCss(style)
 	}
 }
-
+/*
+	A unit object which encodes javascript and html/css logic in a singleton class object.
+*/
 sealed class Node(
 	var tag: String, 
 	var attributes: Map[String, String], 
 	var style: Map[String,String], 
 	var text: String,
 	var value: String,
-	var items: List[Node], 
+	var items: List[Node],
 	var id: String) extends JSApp with Select with JQAnimation with Attributes with Reaction {
 
 	private val atrStr = attributes map { x => x._1 + "=" + "'" + x._2 + "'" } mkString " "
