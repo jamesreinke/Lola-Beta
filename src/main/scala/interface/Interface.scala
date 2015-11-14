@@ -21,6 +21,7 @@ sealed case class Node(
 	var text: String,
 	var value: String,
 	var items: List[Node],
+	var javascript: String,
 	var id: String) 
 
 object el {
@@ -31,8 +32,9 @@ object el {
 		text: String = "",
 		value: String = "",
 		items: List[Node] = List(),
+		javascript: String = "",
 		id: String = Lola.assign): Node = {
-		new Node(tag, attributes, style, text, value, items, id)
+		new Node(tag, attributes, style, text, value, items, javascript, id)
 	}
 }
 
