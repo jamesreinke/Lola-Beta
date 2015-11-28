@@ -1,9 +1,9 @@
-package lola.js
+package maliki.js
 
-import lola.Parse
+import maliki.Parse
 import upickle.default._
 
-import lola.interface.{Encode, DecodeCommands, Decode}
+import maliki.interface.{Encode, DecodeCommands, Decode}
 import scala.scalajs.js.JSApp
 import org.scalajs.dom
 import dom._

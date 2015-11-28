@@ -1,4 +1,4 @@
-package lola
+package maliki
 
 import scala.scalajs.js.annotation.JSExport
 import scala.scalajs.js.JSApp
@@ -12,7 +12,7 @@ object Application extends JSApp {
 	
 	@JSExport
 	def initiate(url: String): Unit = {
-		lola.js.Lola.get(url)
+		maliki.js.Lola.get(url)
 	}
 
 

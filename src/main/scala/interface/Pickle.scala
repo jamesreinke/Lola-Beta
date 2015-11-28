@@ -1,4 +1,4 @@
-package lola.interface
+package maliki.interface
 
 import upickle.default._
 

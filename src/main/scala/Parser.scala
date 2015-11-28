@@ -1,4 +1,4 @@
-package lola
+package maliki
 
 import upickle.default._
 import org.scalajs.jquery.{jQuery, JQuery}
@@ -30,7 +30,7 @@ object Parse {
 	/*
 		Interface Node -> Javascript Node
 	*/
-	def apply(n: interface.Node): js.Node = lola.js.Lola.getById(n.id) match {
+	def apply(n: interface.Node): js.Node = maliki.js.Lola.getById(n.id) match {
 		case Some(node) => node
 		case None => new js.Node(n.tag, n.attributes, n.style, n.text, n.value, n.items map { x => Parse(x) }, n.javascript, n.id)
 	}
@@ -53,7 +53,7 @@ object Parse {
 		case interface.Post.Post(url: String, n: List[interface.Node]) => js.Lola.post(url, Parse.scalaToJs(n))
 		case interface.Update.Update(n: interface.Node) => {
 			val neu = n.copy()
-			neu.id = lola.interface.Lola.assign
+			neu.id = maliki.interface.Lola.assign
 			Parse(n).update(Parse(neu))
 		}
 		case interface.Clear.Clear(s: String) => jQuery(s).empty()
